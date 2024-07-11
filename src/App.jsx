@@ -1,18 +1,38 @@
-import React from 'react';
-import KgButton from "./KgButton";
-import Hello from "./Hello";
-import Random from "./Random";
-function App() {
+import React, { useState } from 'react';
+import Display from './components/Display';
+import ButtonsContainer from './components/ButtonsContainer';
+import ResultDisplay from './components/ResultDisplay';
+import './App.css';
+
+const App = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+
+  const handleClick = (buttonName) => {
+    if (buttonName === '=') {
+      try {
+        setResult(eval(input)); 
+      } catch (error) {
+        setResult('Error');
+      }
+    } else if (buttonName === 'C') {
+      setInput('');
+      setResult('');
+    } else {
+      setInput(input + buttonName);
+    }
+  };
+
   return (
-    <div>
-      <h1>This is this best react course</h1>
-      <Hello></Hello>
-      <Random></Random>
-      <Random>/</Random>
-      <Random>/</Random>
-      <Random>/</Random>
+    <div className="app">
+      <h1>Calculator</h1>
+      <div className="calculator-container">
+        <Display input={input} />
+        <ButtonsContainer handleClick={handleClick} />
+      </div>
+      <ResultDisplay result={result} />
     </div>
   );
-}
+};
 
 export default App;
